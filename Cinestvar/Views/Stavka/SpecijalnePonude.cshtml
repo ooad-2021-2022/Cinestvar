@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Cinestvar.Models.Stavka>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1><a asp-action="Index" style="color: dimgray">Hrana i piće</a> | Specijalne ponude</h1>
+@if (User.IsInRole("Radnik"))
+{
+    <p>
+    <a asp-action="Create">Create New</a>
+    </p>
+}
+<p>
+    <br />
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NazivStavke)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpisStavke)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NazivStavke)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpisStavke)
+            </td>
+           @if (User.IsInRole("Radnik"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdStavke">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdStavke">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdStavke">Delete</a>
+                </td>
+                }
+        </tr>
+}
+    </tbody>
+</table>
+
