@@ -1,0 +1,63 @@
+﻿
+@model IEnumerable<Cinestvar.Models.Film>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<center>
+    <h1>Filmska ponuda</h1>
+</center>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.PosterLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NazivFilma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trajanje)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zanr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Opis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CijenaKarte)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+@foreach (var item in Model) {
+        <tr>
+             <td>
+                <img src="@Html.DisplayFor(modelItem => item.PosterLink)" alt="No picture avaliable"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NazivFilma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trajanje)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zanr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Opis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CijenaKarte)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
