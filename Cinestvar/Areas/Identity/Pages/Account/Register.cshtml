@@ -27,14 +27,17 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="checkbox">
-                        <label asp-for="PravnoLice">
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="PravnoLice">
                             <input asp-for="PravnoLice" />
-                            @Html.DisplayNameFor(m => m.PravnoLice)
-                        </label>
-                    </div>
-             
-            <button type="submit" class="btn btn-primary">Register</button>
+                            Pravno lice?
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

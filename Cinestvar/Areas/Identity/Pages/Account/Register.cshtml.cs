@@ -78,13 +78,15 @@ namespace Cinestvar.Areas.Identity.Pages.Account
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (PravnoLice)
-                    await _userManager.AddToRoleAsync(user, "Pravno lice");
-                else
-                    await _userManager.AddToRoleAsync(user, "Fizicko lice");
+                
 
                 if (result.Succeeded)
                 {
+                    if (PravnoLice)
+                        await _userManager.AddToRoleAsync(user, "Pravno lice");
+                    else
+                        await _userManager.AddToRoleAsync(user, "Fizicko lice");
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
