@@ -6,7 +6,7 @@ namespace Cinestvar.Models
     {
         [Key]
         public int IdFilma { get; set; }
-        [Display(Name ="Naziv filma")]
+        [Display(Name ="")]
         public string NazivFilma { get; set; }
         [Display (Name ="")]
         public string PosterLink { get; set; }

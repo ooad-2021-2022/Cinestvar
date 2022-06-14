@@ -17,21 +17,6 @@
              <th>
                 @Html.DisplayNameFor(model => model.PosterLink)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NazivFilma)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Trajanje)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Zanr)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Opis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CijenaKarte)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -43,19 +28,34 @@
                 <img src="@Html.DisplayFor(modelItem => item.PosterLink)" alt="No picture avaliable"/>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NazivFilma)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Trajanje)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zanr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Opis)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CijenaKarte)
+                <h2><a asp-action="Details" style ="color: black" asp-route-id="@item.IdFilma">@Html.DisplayFor(modelItem => item.NazivFilma)</a> </h2>
+            
+                     <dl class = "row">
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Trajanje)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                 @Html.DisplayFor(modelItem => item.Trajanje)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Zanr)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(modelItem => item.Zanr)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Opis)
+                            </dt>
+                            <dd class = "col-sm-10">
+                               @Html.DisplayFor(modelItem => item.Opis)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.CijenaKarte)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(modelItem => item.CijenaKarte)
+                            </dd>
+             </dl>
             </td>
         </tr>
 }
