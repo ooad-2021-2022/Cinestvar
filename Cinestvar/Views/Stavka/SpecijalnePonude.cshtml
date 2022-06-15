@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Cinestvar.Models.Stavka>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Posebne ponude";
 }
 
-<h1><a asp-action="Index" style="color: dimgray">Hrana i piće</a> | Specijalne ponude</h1>
+<h1>Posebne pogodnosti</h1>
 @if (User.IsInRole("Radnik"))
 {
     <p>
@@ -20,10 +20,14 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NazivStavke)
+                <h5 style="font-weight:bold">
+                    @Html.DisplayNameFor(model => model.NazivStavke)
+                </h5>                
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OpisStavke)
+                <h5 style="font-weight:bold">
+                    @Html.DisplayNameFor(model => model.OpisStavke)
+                </h5>
             </th>
             
             <th></th>
@@ -32,8 +36,8 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NazivStavke)
+            <td >
+                <h5>@Html.DisplayFor(modelItem => item.NazivStavke)</h5>                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OpisStavke)
