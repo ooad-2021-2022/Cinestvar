@@ -165,5 +165,15 @@ namespace Cinestvar.Controllers
         {
             return _context.Film.Any(e => e.IdFilma == id);
         }
+
+
+
+        public async Task<IActionResult> Filter()
+        {
+
+            return View(await _context.Stavka.Where(stavka => stavka.TipStavke == TipStavke.SpecijalnaPonuda).ToListAsync());
+
+        }
     }
+
 }

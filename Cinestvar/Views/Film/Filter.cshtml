@@ -17,29 +17,13 @@
 
     <thead>
         <div align="right">
-                <form action="/action_page.php">
-                      <label for="zanrovi">Odaberite žanr: </label>
-                      <select id="zanrovi" name="zanrovi">
-                        <option value="Svi filmovi" selected>Svi filmovi</option>
-                        <option value="Akcija">Akcija</option>
-                        <option value="Animirani">Animirani</option>
-                        <option value="Avantura">Avantura</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Fantastika">Fantastika</option>
-                        <option value="Horor">Horor</option>
-                        <option value="Komedija">Komedija</option>
-                        <option value="Porodični">Porodični</option>
-                        <option value="Romantika">Romantika</option>
-                        <option value="Triler">Triler</option>
-                      </select>
-                </form>
-                <button type="button" onclick="myFunction()">Pretraga</button>
-            </div>
+             <a asp-action="Index">Nazad na ponudu</a>
+        </div>
     </thead>
     <tbody>
 
-@foreach (var item in Model) {
 
+@foreach (var item in Model) {
         <tr>
              <td>
                 <img src="@Html.DisplayFor(modelItem => item.PosterLink)" alt="No picture avaliable"/>
@@ -78,13 +62,3 @@
 }
     </tbody>
 </table>
-
-
-
-    <script>
-    function myFunction() {
-      var x = document.getElementById("zanrovi").selectedIndex;
-      var y = document.getElementById("zanrovi").options;
-      return y[x].text;
-    }
-    </script>
