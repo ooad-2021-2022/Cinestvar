@@ -69,7 +69,7 @@
                      Sala 
                      @Html.DisplayFor(modelItem => item.IdSale)
                         <br>
-                     @Html.DisplayFor(modelItem => item.PocetakTermina)
+                     <a asp-area="" asp-controller="Rezervacija" asp-action="Landing" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
                 </center>
                
             </td>
