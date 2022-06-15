@@ -69,7 +69,17 @@
                      Sala 
                      @Html.DisplayFor(modelItem => item.IdSale)
                         <br>
-                     <a asp-area="" asp-controller="Rezervacija" asp-action="Landing" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
+                     @if (User.IsInRole("Fizicko lice"))
+                        {
+                            <a asp-area="" asp-controller="Rezervacija" asp-action="BrojKarata" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
+                        }
+                        else if (User.IsInRole("Pravno lice"))
+                        {
+                            <a asp-area="" asp-controller="Rezervacija" asp-action="Create" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
+                        }
+                        else {
+                            @Html.DisplayFor(modelItem => item.PocetakTermina)
+                        }
                 </center>
                
             </td>

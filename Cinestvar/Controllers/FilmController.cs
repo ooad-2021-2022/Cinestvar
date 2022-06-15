@@ -48,6 +48,16 @@ namespace Cinestvar.Controllers
                 t => t.IdFilma == id &&
                 t.PocetakTermina > ((DateTime)datum).AddMinutes(59)
                 ).ToListAsync();
+
+            if (lista.Count == 0)
+                return View("NemaTermina", film);
+            //reci cemo da je 6 id sale za pravna lica
+            
+            if (User.IsInRole("Pravno lice"))
+                lista = lista.Where(t => t.IdSale == 6).ToList();
+            else
+                lista = lista.Where(t => t.IdSale != 6).ToList();
+           
             if (lista.Count == 0)
                 return View("NemaTermina", film);
             return View(lista);

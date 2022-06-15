@@ -9,6 +9,10 @@ using Cinestvar.Data;
 using Cinestvar.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinestvar.Controllers
 {
@@ -27,30 +31,20 @@ namespace Cinestvar.Controllers
 
         // GET: Rezervacija
         
-        public async Task<IActionResult> Landing(int id)
+
+        public async Task<IActionResult> BrojKarata(int id)
         {
-            
             termin = await _context.Termin.FindAsync(id);
             if (termin == null)
             {
                 return NotFound();
             }
-            rez.IdTermina = id;
-            //var popis = await _context.Termin.ToListAsync();
-            //if(popis.Count()==2) return NotFound();
-            //termin = await _context.Termin.FirstAsync(ter => ter.IdTermina.ToString() == idterm.ToString());
-            //if (termin != null) return NotFound();//prekopiraj termin u lokalnu varijablu (je li ovo plitka kopija?)
-            if (KorisnikFizicko() && brojkarata==-1) //ima u funkciji nize redirect, zato provjerava i broj karata
-            {
-                return View("BrojKarata", rez); //daj prozor za unos broja
-            }
-            return View("Create", rez); //daj prozor za potvrdu rezervacije
+            termin.IdTermina = id;
+            var film = await _context.Film.FindAsync(termin.IdFilma);
+            termin.Film = film;
+           
+            return View(termin);
         }
-
-        /*public async Task<IActionResult> BrojKarata()
-        {
-            return View();
-        }*/
         //[HttpPost]
         /*public async Task<IActionResult> Test()
         {
@@ -77,39 +71,29 @@ namespace Cinestvar.Controllers
             return true;
         }
 
-        // GET: Rezervacija/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rezervacija = await _context.Rezervacija
-                .Include(r => r.Termin)
-                .FirstOrDefaultAsync(m => m.IdRezervacije == id);
-            if (rezervacija == null)
-            {
-                return NotFound();
-            }
-
-            return View(rezervacija);
-        }
        
         // GET: Rezervacija/Create
-        public IActionResult Create(int? brojkarata)
+        public async Task<IActionResult> Create(int? id)
         {
-            if (brojkarata == null) return NotFound();
-            if (!SlobodanTermin((int)brojkarata)) return View("AlternativniTermin", rez); //da li ovaj view ide u termine?
-
-            ViewData["IdTermina"] = new SelectList(_context.Termin, "IdTermina", "IdTermina"); 
-            return View();
+            //if (!SlobodanTermin((int)brojkarata)) return View("AlternativniTermin", rez); //da li ovaj view ide u termine?
+            termin = await _context.Termin.FindAsync(id);
+            if (termin == null)
+            {
+                return NotFound();
+            }
+            termin.IdTermina = (int)id;
+            var film = await _context.Film.FindAsync(termin.IdFilma);
+            termin.Film = film;
+           
+            
+            ViewData["Termin"] = termin; 
+            return View(termin);
         }
 
         // POST: Rezervacija/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdRezervacije,IdTermina,IdKorisnika")] Rezervacija rezervacija)
         {
@@ -119,65 +103,12 @@ namespace Cinestvar.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdTermina"] = new SelectList(_context.Termin, "IdTermina", "IdTermina", rezervacija.IdTermina);
+            ViewData["Termin"] = termin;
             return View(rezervacija);
         }
-
+        */
         // GET: Rezervacija/Edit/5
-        
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rezervacija = await _context.Rezervacija.FindAsync(id);
-            if (rezervacija == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdTermina"] = new SelectList(_context.Termin, "IdTermina", "IdTermina", rezervacija.IdTermina);
-            return View(rezervacija);
-        }
-       
-        // POST: Rezervacija/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRezervacije,IdTermina,IdKorisnika")] Rezervacija rezervacija)
-        {
-            if (id != rezervacija.IdRezervacije)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(rezervacija);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RezervacijaExists(rezervacija.IdRezervacije))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdTermina"] = new SelectList(_context.Termin, "IdTermina", "IdTermina", rezervacija.IdTermina);
-            return View(rezervacija);
-        }
+      
 
         // GET: Rezervacija/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -219,6 +150,48 @@ namespace Cinestvar.Controllers
         {
             if (User.IsInRole("Fizicko lice")) return true;
             return false;
+        }
+
+        //private Task<IdentityUser> GetCurrentUserAsync() => UserManager.GetUserAsync(HttpContext.User);
+       
+
+        public async Task<IActionResult> PotvrdiFizicko(int id)
+        {
+            Rezervacija rezervacija = new Rezervacija();
+            rezervacija.Termin= termin;
+            rezervacija.IdTermina = id;
+            
+            //String korisnik = Environment.UserName;
+            //rezervacija.IdentityUser.Id = korisnik;
+
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            rezervacija.IdKorisnika = 1;
+            _context.Add(rezervacija);
+            await _context.SaveChangesAsync();
+
+            RezervacijaSjedista rezsjedista = new RezervacijaSjedista();
+            rezsjedista.IdRezervacije = rezervacija.IdRezervacije;
+            rezsjedista.OznakaSjedista = "ozn";
+            _context.Add(rezsjedista);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Film");
+        }
+
+        public async Task<IActionResult> PotvrdiPravno(int id)
+        {
+            Rezervacija rezervacija = new Rezervacija();
+            rezervacija.Termin = termin;
+            rezervacija.IdTermina = id;
+
+            //String korisnik = Environment.UserName;
+            //rezervacija.IdentityUser.Id = korisnik;
+
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            rezervacija.IdKorisnika = 1;
+            _context.Add(rezervacija);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Film");
         }
     }
 }
