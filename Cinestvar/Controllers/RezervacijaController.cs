@@ -23,9 +23,9 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Rezervacija
-        private IActionResult Landing(Termin t)
+        private IActionResult Landing(int idterm)
         {
-            termin = t; //prekopiraj termin u lokalnu varijablu (je li ovo plitka kopija?)
+            termin = _context.Termin.Where(ter => ter.IdTermina == idterm).ToList().ElementAt(0); //prekopiraj termin u lokalnu varijablu (je li ovo plitka kopija?)
             if (KorisnikFizicko() && brojkarata==-1) //ima u funkciji nize redirect, zato provjerava i broj karata
             {
                 BrojKarata(); //daj prozor za unos broja
@@ -201,7 +201,8 @@ namespace Cinestvar.Controllers
 
         private bool KorisnikFizicko()
         {
-            return true;
+            if (User.IsInRole("Fizicko lice")) return true;
+            return false;
         }
     }
 }
