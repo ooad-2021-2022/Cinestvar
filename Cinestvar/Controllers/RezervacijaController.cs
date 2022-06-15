@@ -23,22 +23,28 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Rezervacija
-        public async Task<IActionResult> Landing(int? id)
+        public async Task<IActionResult> Landing(int id)
         {
+         
             termin = await _context.Termin.FindAsync(id);
             if (termin == null)
             {
                 return NotFound();
             }
-            
+            Rezervacija rez = new Rezervacija();
+            rez.IdTermina = id;
+            //var popis = await _context.Termin.ToListAsync();
+            //if(popis.Count()==2) return NotFound();
+            //termin = await _context.Termin.FirstAsync(ter => ter.IdTermina.ToString() == idterm.ToString());
+            //if (termin != null) return NotFound();//prekopiraj termin u lokalnu varijablu (je li ovo plitka kopija?)
             if (KorisnikFizicko() && brojkarata==-1) //ima u funkciji nize redirect, zato provjerava i broj karata
             {
-                return View("BrojKarata", termin);
+                return View("BrojKarata", rez); //daj prozor za unos broja
             }
-            return Create(); //daj prozor za potvrdu rezervacije
+            return View("Create", rez); //daj prozor za potvrdu rezervacije
         }
 
-        public IActionResult BrojKarata()
+        public async Task<IActionResult> BrojKarata()
         {
             return View();
         }
@@ -69,7 +75,7 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Rezervacija/Details/5
-        /*public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -86,7 +92,7 @@ namespace Cinestvar.Controllers
 
             return View(rezervacija);
         }
-        */
+       
         // GET: Rezervacija/Create
         public IActionResult Create()
         {
@@ -113,7 +119,7 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Rezervacija/Edit/5
-        /*
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,12 +135,12 @@ namespace Cinestvar.Controllers
             ViewData["IdTermina"] = new SelectList(_context.Termin, "IdTermina", "IdTermina", rezervacija.IdTermina);
             return View(rezervacija);
         }
-        */
+       
         // POST: Rezervacija/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 
-        /*
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdRezervacije,IdTermina,IdKorisnika")] Rezervacija rezervacija)
@@ -197,7 +203,7 @@ namespace Cinestvar.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        */
+       
 
         private bool RezervacijaExists(int id)
         {
