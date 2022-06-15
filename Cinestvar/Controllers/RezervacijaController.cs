@@ -15,7 +15,7 @@ namespace Cinestvar.Controllers
     {
         private readonly ApplicationDbContext _context;
         public int brojkarata = -1;
-        public Termin termin;
+        public Termin termin=null;
         
         public RezervacijaController(ApplicationDbContext context)
         {
@@ -23,17 +23,22 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Rezervacija
-        private IActionResult Landing(int idterm)
+        public async Task<IActionResult> Landing(int? id)
         {
-            termin = _context.Termin.Where(ter => ter.IdTermina == idterm).ToList().ElementAt(0); //prekopiraj termin u lokalnu varijablu (je li ovo plitka kopija?)
+            termin = await _context.Termin.FindAsync(id);
+            if (termin == null)
+            {
+                return NotFound();
+            }
+            
             if (KorisnikFizicko() && brojkarata==-1) //ima u funkciji nize redirect, zato provjerava i broj karata
             {
-                BrojKarata(); //daj prozor za unos broja
+                return View("BrojKarata", termin);
             }
             return Create(); //daj prozor za potvrdu rezervacije
         }
 
-        private IActionResult BrojKarata()
+        public IActionResult BrojKarata()
         {
             return View();
         }
