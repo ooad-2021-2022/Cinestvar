@@ -10,8 +10,9 @@
 <hr />
 <h5>Unesite željeni broj karata:</h5>
 <div class="row">
-     <form asp-controller="RezervacijaController" asp-action="ProvjeriBrojKarata" method="post">
-    @Html.TextBox("test")
+    @Html.TextBoxFor(model => model.IdRezervacije)
+     <form asp-controller="RezervacijaController" asp-action="Create" asp-route-id="@Model.IdRezervacije" method="post">
+    
     <button type="submit">Potvrdi</button>
 </form>
 

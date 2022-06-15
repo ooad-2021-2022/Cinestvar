@@ -8,30 +8,33 @@ using Microsoft.EntityFrameworkCore;
 using Cinestvar.Data;
 using Cinestvar.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinestvar.Controllers
 {
+    [Authorize]
     public class RezervacijaController : Controller
     {
         private readonly ApplicationDbContext _context;
         public int brojkarata = -1;
         public Termin termin=null;
-        
+        public Rezervacija rez = new Rezervacija();
+
         public RezervacijaController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: Rezervacija
+        
         public async Task<IActionResult> Landing(int id)
         {
-         
+            
             termin = await _context.Termin.FindAsync(id);
             if (termin == null)
             {
                 return NotFound();
             }
-            Rezervacija rez = new Rezervacija();
             rez.IdTermina = id;
             //var popis = await _context.Termin.ToListAsync();
             //if(popis.Count()==2) return NotFound();
@@ -44,18 +47,18 @@ namespace Cinestvar.Controllers
             return View("Create", rez); //daj prozor za potvrdu rezervacije
         }
 
-        public async Task<IActionResult> BrojKarata()
+        /*public async Task<IActionResult> BrojKarata()
         {
             return View();
-        }
-        [HttpPost]
-        public ActionResult Test()
+        }*/
+        //[HttpPost]
+        /*public async Task<IActionResult> Test()
         {
             brojkarata = Int32.Parse(Request.Form["test"].First()); //sa test text boxa u BrojKarata view
-
-            if (!SlobodanTermin(brojkarata)) return RedirectToAction("AlternativniTermin"); //da li ovaj view ide u termine??
-            return RedirectToAction("Landing"); //vrati me gdje sam bio 
-        }
+            if (brojkarata != 6) return NotFound();
+            if (!SlobodanTermin(brojkarata)) return View("AlternativniTermin", rez); //da li ovaj view ide u termine??
+            return View("Create", rez); //vrati me gdje sam bio 
+        }*/
 
         private bool SlobodanTermin(int brojkarata) //provjerava ima li dovoljno slobodnih sjedista 
         {
@@ -94,10 +97,12 @@ namespace Cinestvar.Controllers
         }
        
         // GET: Rezervacija/Create
-        public IActionResult Create()
+        public IActionResult Create(int? brojkarata)
         {
-            ViewData["IdTermina"] = new SelectList(_context.Termin, "IdTermina", "IdTermina");
-            //ovdje bi se automatski trebale popuniti vrijednosti iz termina termin koji je proslijedjen 
+            if (brojkarata == null) return NotFound();
+            if (!SlobodanTermin((int)brojkarata)) return View("AlternativniTermin", rez); //da li ovaj view ide u termine?
+
+            ViewData["IdTermina"] = new SelectList(_context.Termin, "IdTermina", "IdTermina"); 
             return View();
         }
 
