@@ -1,0 +1,26 @@
+﻿@model Cinestvar.Models.Rezervacija
+
+@{
+    ViewData["Title"] = "BrojKarata";
+}
+
+<h1>BrojKarata</h1>
+
+<h4>Rezervacija</h4>
+<hr />
+<h5>Unesite željeni broj karata:</h5>
+<div class="row">
+     <form asp-controller="RezervacijaController" asp-action="ProvjeriBrojKarata" method="post">
+    @Html.TextBox("test")
+    <button type="submit">Potvrdi</button>
+</form>
+
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
