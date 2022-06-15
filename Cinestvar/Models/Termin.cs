@@ -8,7 +8,11 @@ namespace Cinestvar.Models
     {
         [Key]
         public int IdTermina { get; set; }
+
+        [Display(Name ="Pocetak termina")]
         public DateTime PocetakTermina { get; set; }
+
+        [Display(Name = "Kraj termina")]
         public DateTime KrajTermina { get; set; }
 
         [ForeignKey("Film")]

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cinestvar.Data;
 using Cinestvar.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinestvar.Controllers
 {
@@ -40,10 +41,11 @@ namespace Cinestvar.Controllers
                 return NotFound();
             }
 
-            return View(film);
+            return View(await _context.Termin.Where(t => t.IdFilma == id).ToListAsync());
         }
 
         // GET: Film/Create
+        [Authorize(Roles = "Radnik")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace Cinestvar.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Radnik")]
         public async Task<IActionResult> Create([Bind("IdFilma,NazivFilma,PosterLink,Trajanje,Zanr,Opis,RecenzijaLink,CijenaKarte")] Film film)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Film/Edit/5
+        [Authorize(Roles = "Radnik")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace Cinestvar.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Radnik")]
         public async Task<IActionResult> Edit(int id, [Bind("IdFilma,NazivFilma,PosterLink,Trajanje,Zanr,Opis,RecenzijaLink,CijenaKarte")] Film film)
         {
             if (id != film.IdFilma)
@@ -117,6 +122,7 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Film/Delete/5
+        [Authorize(Roles = "Radnik")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace Cinestvar.Controllers
         // POST: Film/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Radnik")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var film = await _context.Film.FindAsync(id);

@@ -6,10 +6,13 @@
 <center>
     <h1>Filmska ponuda</h1>
 </center>
-
-<p>
+@if (User.IsInRole("Radnik"))
+{
+   <p>
     <a asp-action="Create">Create New</a>
-</p>
+</p> 
+}
+
 <table class="table">
     <tbody>
 
