@@ -5,10 +5,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h3>Detalji o filmu</h3>
+<h3>Detalji filma </h3>
 
 <div>
-    <h1>@Html.DisplayFor(model => model.NazivFilma)</h1>
+    <center><h1>@Html.DisplayFor(model => model.NazivFilma)</h1></center>
     <table class = "table">
         <tr>
             <td>
@@ -46,22 +46,23 @@
     </table>
 </div>
 
+
 <div>
      <h4>Termini:</h4>
     <table border = "2" cellpadding = "10">
         <tr>
             <td>
-                sjadjkdsa
-            </td>
-            <td>
-                jdsjdaka
+               Termin1
             </td>
         </tr>
     </table>
 </div>
+
 <br />
 <br />
+
     <div>
+        <h4>Recenzija filma:</h4>
         <iframe style="width: 100%" height="400"
 
     src="@Html.DisplayFor(model =>model.RecenzijaLink)?autoplay=0&mute=0">
