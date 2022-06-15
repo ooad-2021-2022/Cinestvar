@@ -47,7 +47,16 @@
 </div>
 
 <div>
-     <h4>Termini:</h4>
+     <h4>Termini za danas:
+         @*
+         <select class="form-control" id="Datum" name="Datum"  onchange="Details" asp-route-id="@modelItem.First(t => t.IdFilma!=null).IdFilma">
+            <option>@DateTime.Today.ToShortDateString()</option> 
+            <option>@DateTime.Today.AddDays(1).ToShortDateString()</option> 
+            <option>@DateTime.Today.AddDays(2).ToShortDateString()</option> 
+            
+        </select>
+        *@
+     </h4>
     <table border = "2" cellpadding = "10">
         <tr>
         @foreach (var item in Model)

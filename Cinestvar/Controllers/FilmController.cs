@@ -27,7 +27,7 @@ namespace Cinestvar.Controllers
         }
 
         // GET: Film/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, DateTime? datum)
         {
             if (id == null)
             {
@@ -41,7 +41,16 @@ namespace Cinestvar.Controllers
                 return NotFound();
             }
 
-            return View(await _context.Termin.Where(t => t.IdFilma == id).ToListAsync());
+            if (datum == null)
+                datum = DateTime.Now;
+
+            List<Termin> lista = await _context.Termin.Where(
+                t => t.IdFilma == id &&
+                t.PocetakTermina > ((DateTime)datum).AddMinutes(59)
+                ).ToListAsync();
+            if (lista.Count == 0)
+                return View("NemaTermina", film);
+            return View(lista);
         }
 
         // GET: Film/Create
