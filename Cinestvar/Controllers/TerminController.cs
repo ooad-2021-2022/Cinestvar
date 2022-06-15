@@ -21,7 +21,7 @@ namespace Cinestvar.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Radnik")]
+        
         // GET: Termin
         public async Task<IActionResult> Index()
         {
@@ -30,7 +30,7 @@ namespace Cinestvar.Controllers
                 ToListAsync());
         }
 
-        [Authorize(Roles = "Radnik")]
+        
         // GET: Termin/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -51,7 +51,7 @@ namespace Cinestvar.Controllers
             return View(termin);
         }
 
-        [Authorize(Roles = "Radnik")]
+        
         // GET: Termin/Create
         public IActionResult Create()
         {
@@ -79,7 +79,7 @@ namespace Cinestvar.Controllers
         }
 
 
-        [Authorize(Roles = "Radnik")]
+        
         // GET: Termin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -135,7 +135,7 @@ namespace Cinestvar.Controllers
             return View(termin);
         }
 
-        [Authorize(Roles = "Radnik")]
+
         // GET: Termin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -156,7 +156,7 @@ namespace Cinestvar.Controllers
             return View(termin);
         }
 
-        [Authorize(Roles = "Radnik")]
+       
         // POST: Termin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
