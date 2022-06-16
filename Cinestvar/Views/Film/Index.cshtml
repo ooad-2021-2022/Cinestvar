@@ -14,7 +14,7 @@
 }
 
 <table class="table">
-
+    @*
     <thead>
         <div align="right">
                 <form action="/action_page.php">
@@ -36,16 +36,17 @@
                 <button type="button" onclick="myFunction()">Pretraga</button>
             </div>
     </thead>
+    *@
     <tbody>
 
 @foreach (var item in Model) {
 
         <tr>
              <td>
-                <img src="@Html.DisplayFor(modelItem => item.PosterLink)" width="65%" height="65%" align= "right" alt="No picture avaliable"/>
+                <img src="@Html.DisplayFor(modelItem => item.PosterLink)" width="200" height="300" align= "right" alt="No picture avaliable"/>
             </td>
             <td>
-                <h2><a asp-action="Details" style ="color: black" asp-route-id="@item.IdFilma">@Html.DisplayFor(modelItem => item.NazivFilma)</a> </h2>
+                <h2><a asp-action="Details" style ="color: azure" asp-route-id="@item.IdFilma">@Html.DisplayFor(modelItem => item.NazivFilma)</a> </h2>
             
                      <dl class = "row">
                             <dt class = "col-sm-10">
