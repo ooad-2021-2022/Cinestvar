@@ -9,10 +9,17 @@ using Cinestvar.Data;
 using Cinestvar.Models;
 using Microsoft.AspNetCore.Authorization;
 
+using System.Web;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+
 namespace Cinestvar.Controllers
 {
     public class FilmController : Controller
     {
+
         private readonly ApplicationDbContext _context;
 
         public FilmController(ApplicationDbContext context)
@@ -33,6 +40,10 @@ namespace Cinestvar.Controllers
             {
                 return NotFound();
             }
+
+
+            String rez = PageLoad();
+            ViewBag.Rez = rez;
 
             var film = await _context.Film
                 .FirstOrDefaultAsync(m => m.IdFilma == id);
@@ -209,6 +220,30 @@ namespace Cinestvar.Controllers
             return View(await _context.Stavka.Where(stavka => stavka.TipStavke == TipStavke.SpecijalnaPonuda).ToListAsync());
 
         }
+
+        public String PageLoad()
+        {
+            string link = String.Format("http://www.omdbapi.com/?i=tt1745960&apikey=59656363");
+            WebRequest pretraga = WebRequest.Create(link);
+            pretraga.Method = "GET";
+            HttpWebResponse odgovor = null;
+            odgovor = (HttpWebResponse)pretraga.GetResponse();
+
+            string ocjene = null;
+
+            using (Stream stream = odgovor.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                ocjene = sr.ReadToEnd();
+                sr.Close();
+            }
+            dynamic data = JObject.Parse(ocjene);
+            String rezultat = "IMDb: " + data.Ratings[0].Value + "\nRotten Tomatoes: " + data.Ratings[1].Value + "\nMetacritic: " + data.Ratings[2].Value;
+            Console.WriteLine(rezultat);
+            return rezultat;
+        }
     }
+
+
 
 }
