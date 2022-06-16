@@ -1,0 +1,82 @@
+﻿@model Cinestvar.Models.Film
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@*<h3>Detalji o filmu</h3>*@
+
+<div>
+    <h1>@Html.DisplayFor(model => model.NazivFilma)</h1>
+    <table class = "table">
+        <tr>
+            <td>
+                <img src="@Html.DisplayFor(model => model.PosterLink)" alt="No picture avaliable"/>
+            </td>
+            <td>
+                     <dl class = "row">
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Trajanje)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                 @Html.DisplayFor(model => model.Trajanje)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Zanr)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.Zanr)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Opis)
+                            </dt>
+                            <dd class = "col-sm-10">
+                               @Html.DisplayFor(model => model.Opis)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.CijenaKarte)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(model => model.CijenaKarte)
+                            </dd>
+             </dl>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div>
+     <h4>Termini za danas:
+         @*
+         <select class="form-control" id="Datum" name="Datum">
+            <option>@DateTime.Today.ToShortDateString()</option> 
+            <option>@DateTime.Today.AddDays(1).ToShortDateString()</option> 
+            <option>@DateTime.Today.AddDays(2).ToShortDateString()</option> 
+            
+        </select>
+        *@
+     </h4>
+    <table border = "2" cellpadding = "10">
+        <tr>
+            <center>
+                <h4>Nažalost danas nemamo raspoloživih termina za odabrani film</h4>
+            </center>
+            
+        </tr>
+    </table>
+</div>
+<br />
+<br />
+    <div>
+        <iframe style="width: 100%" height="400"
+
+    src="@Html.DisplayFor(model => model.RecenzijaLink)?autoplay=0&mute=0">
+    </iframe>
+    </div>
+
+
+<div>
+    <a asp-action="Index">Nazad na ponudu</a>
+</div>
+

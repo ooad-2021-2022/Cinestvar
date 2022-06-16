@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Cinestvar.Models.Termin>
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@*<h3>Detalji o filmu</h3>*@
+
+<div>
+    <h1>@Html.DisplayFor(modelItem => modelItem.First(t => t.IdFilma!=null).Film.NazivFilma)</h1>
+    <table class = "table">
+        <tr>
+            <td>
+     
+                <img src="@Html.DisplayFor(modelItem => modelItem.First(t => t.IdFilma!=null).Film.PosterLink)"/>
+             
+            </td>
+            <td>
+                     <dl class = "row">
+                            <dt class = "col-sm-10" style="font-size: 18px">
+                                @Html.DisplayNameFor(model => model.Film.Trajanje)
+                            </dt>
+                            <dd class = "col-sm-10" style="font-size: 18px">
+                                 @Html.DisplayFor(modelItem => modelItem.First(t => t.IdFilma!=null).Film.Trajanje)
+                            </dd>
+                            <dt class = "col-sm-10" style="font-size: 18px">
+                                @Html.DisplayNameFor(model => model.Film.Zanr)
+                            </dt>
+                            <dd class = "col-sm-10" style="font-size: 18px">
+                                @Html.DisplayFor(modelItem => modelItem.First(t => t.IdFilma!=null).Film.Zanr)
+                            </dd>
+                            <dt class = "col-sm-10" style="font-size: 18px">
+                                @Html.DisplayNameFor(model => model.Film.Opis)
+                            </dt>
+                            <dd class = "col-sm-10" style="font-size: 18px">
+                               @Html.DisplayFor(modelItem => modelItem.First(t => t.IdFilma!=null).Film.Opis)
+                            </dd>
+                            <dt class = "col-sm-10" style="font-size: 18px">
+                                @Html.DisplayNameFor(model => model.Film.CijenaKarte)
+                            </dt>
+                            <dd class = "col-sm-10" style="font-size: 18px">
+                                @Html.DisplayFor(modelItem => modelItem.First(t => t.IdFilma!=null).Film.CijenaKarte)
+                            </dd>
+             </dl>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div>
+     <h4>Termini za danas:
+         @*
+         <select class="form-control" id="Datum" name="Datum"  onchange="Details" asp-route-id="@modelItem.First(t => t.IdFilma!=null).IdFilma">
+            <option>@DateTime.Today.ToShortDateString()</option> 
+            <option>@DateTime.Today.AddDays(1).ToShortDateString()</option> 
+            <option>@DateTime.Today.AddDays(2).ToShortDateString()</option> 
+            
+        </select>
+        *@
+     </h4>
+    <table border = "2" cellpadding = "10">
+        <tr>
+        @foreach (var item in Model)
+        {
+            <td>
+                <center>
+                    @* iz nekog razloga ne moze da pristupi item.Sala atributu,
+                        iako u indexu za termin nema problema s tim *@
+                     Sala 
+                     @Html.DisplayFor(modelItem => item.IdSale)
+                        <br>
+                     @if (User.IsInRole("Fizicko lice"))
+                        {
+                            <a asp-area="" asp-controller="Rezervacija" asp-action="BrojKarata" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
+                        }
+                        else if (User.IsInRole("Pravno lice"))
+                        {
+                            <a asp-area="" asp-controller="Rezervacija" asp-action="Create" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
+                        }
+                        else {
+                            @Html.DisplayFor(modelItem => item.PocetakTermina)
+                        }
+                </center>
+               
+            </td>
+        }
+        </tr>
+    </table>
+</div>
+
+<br />
+<br />
+
+    <div>
+        <h4>Recenzija filma:</h4>
+        <iframe style="width: 100%" height="400"
+
+    src="@Html.DisplayFor(modelItem => modelItem.First(t => t.IdFilma!=null).Film.RecenzijaLink)?autoplay=0&mute=0">
+    </iframe>
+    </div>
+
+
+<div>
+    <a asp-action="Index">Nazad na ponudu</a>
+</div>

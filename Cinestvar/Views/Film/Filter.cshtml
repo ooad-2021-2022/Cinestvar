@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Cinestvar.Models.Film>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<center>
+    <h1>Filmska ponuda</h1>
+</center>
+@if (User.IsInRole("Radnik"))
+{
+   <p>
+    <a asp-action="Create">Create New</a>
+</p> 
+}
+
+<table class="table">
+
+    <thead>
+        <div align="right">
+             <a asp-action="Index">Nazad na ponudu</a>
+        </div>
+    </thead>
+    <tbody>
+
+
+@foreach (var item in Model) {
+        <tr>
+             <td>
+                <img src="@Html.DisplayFor(modelItem => item.PosterLink)" alt="No picture avaliable"/>
+            </td>
+            <td>
+                <h2><a asp-action="Details" style ="color: black" asp-route-id="@item.IdFilma">@Html.DisplayFor(modelItem => item.NazivFilma)</a> </h2>
+            
+                     <dl class = "row">
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Trajanje)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                 @Html.DisplayFor(modelItem => item.Trajanje)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Zanr)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(modelItem => item.Zanr)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.Opis)
+                            </dt>
+                            <dd class = "col-sm-10">
+                               @Html.DisplayFor(modelItem => item.Opis)
+                            </dd>
+                            <dt class = "col-sm-10">
+                                @Html.DisplayNameFor(model => model.CijenaKarte)
+                            </dt>
+                            <dd class = "col-sm-10">
+                                @Html.DisplayFor(modelItem => item.CijenaKarte)
+                            </dd>
+             </dl>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
