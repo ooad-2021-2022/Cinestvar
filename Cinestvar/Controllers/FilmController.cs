@@ -93,7 +93,7 @@ namespace Cinestvar.Controllers
                 ).ToListAsync();
             Sala sala = await _context.Sala.FindAsync(termin.IdSale);
             //umjesto hala sala ide naziv sale za pravna lica
-            if (rezervacije.Count()!=0 && sala.NazivSale == "hala sala")
+            if (rezervacije.Count()!=0 && sala.NazivSale == "1234")
                 return true;
             var kapacitet = sala.BrojKolona * sala.BrojRedova;
             return rezervacije.Count() == kapacitet;
