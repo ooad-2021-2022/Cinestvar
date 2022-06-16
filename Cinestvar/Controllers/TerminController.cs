@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Cinestvar.Controllers
 {
-    //[Authorize(Roles = "Radnik")]
+    [Authorize(Roles = "Radnik")]
     public class TerminController : Controller
     {
         private readonly ApplicationDbContext _context;
