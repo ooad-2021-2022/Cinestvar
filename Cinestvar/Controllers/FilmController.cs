@@ -47,20 +47,45 @@ namespace Cinestvar.Controllers
             List<Termin> lista = await _context.Termin.Where(
                 t => t.IdFilma == id &&
                 t.PocetakTermina > ((DateTime)datum).AddMinutes(59)
+                && t.PocetakTermina<((DateTime)datum).AddDays(1)).ToListAsync();
+            List<Termin> lista2 = await _context.Termin.Where(
+                t => t.IdFilma == id &&
+                t.PocetakTermina > ((DateTime)datum).AddMinutes(59)
                 ).ToListAsync();
 
             if (lista.Count == 0)
                 return View("NemaTermina", film);
-            //reci cemo da je 6 id sale za pravna lica
+
+            foreach (var termin in lista2)
+            {
+                if (Popunjen(termin).Result)
+                    lista.Remove(termin);
+            }
+
             
+            //ovdje ide id sale za pravna lica
+            var idSalePravno = 1234;
             if (User.IsInRole("Pravno lice"))
-                lista = lista.Where(t => t.IdSale == 6).ToList();
+                lista = lista.Where(t => t.IdSale == idSalePravno).ToList();
             else
-                lista = lista.Where(t => t.IdSale != 6).ToList();
+                lista = lista.Where(t => t.IdSale != idSalePravno).ToList();
            
             if (lista.Count == 0)
                 return View("NemaTermina", film);
             return View(lista);
+        }
+
+        private async Task<bool> Popunjen(Termin termin)
+        {
+            List<Rezervacija> rezervacije = await _context.Rezervacija.Where(
+                rez => rez.IdTermina==termin.IdTermina
+                ).ToListAsync();
+            Sala sala = await _context.Sala.FindAsync(termin.IdSale);
+            //umjesto hala sala ide naziv sale za pravna lica
+            if (rezervacije.Count()!=0 && sala.NazivSale == "hala sala")
+                return true;
+            var kapacitet = sala.BrojKolona * sala.BrojRedova;
+            return rezervacije.Count() == kapacitet;
         }
 
         // GET: Film/Create

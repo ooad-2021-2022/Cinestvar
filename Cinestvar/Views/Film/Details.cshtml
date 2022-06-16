@@ -58,7 +58,7 @@
         </select>
         *@
      </h4>
-    <table border = "2" cellpadding = "10">
+    <table border = "2" cellpadding = "10" style="border-color:azure">
         <tr>
         @foreach (var item in Model)
         {
@@ -71,14 +71,15 @@
                         <br>
                      @if (User.IsInRole("Fizicko lice"))
                         {
-                            <a asp-area="" asp-controller="Rezervacija" asp-action="BrojKarata" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
+                            <a asp-area="" asp-controller="Rezervacija" asp-action="BrojKarata" style ="color:azure" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
                         }
                         else if (User.IsInRole("Pravno lice"))
                         {
-                            <a asp-area="" asp-controller="Rezervacija" asp-action="Create" style ="color: black" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
+                            <a asp-area="" asp-controller="Rezervacija" asp-action="Create" style ="color: azure" asp-route-id="@item.IdTermina">@Html.DisplayFor(modelItem => item.PocetakTermina) </a>
                         }
                         else {
                             @Html.DisplayFor(modelItem => item.PocetakTermina)
+                            
                         }
                 </center>
                

@@ -18,11 +18,13 @@
                     <input asp-for="Input.Email" class="form-control" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
+                <br />
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>
                     <input asp-for="Input.Password" class="form-control" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
+                <br />
                 <div class="form-group">
                     <div class="checkbox">
                         <label asp-for="Input.RememberMe">
@@ -31,13 +33,15 @@
                         </label>
                     </div>
                 </div>
+                <br />
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <button type="submit" class="btn btn-warning">Log in</button>
                 </div>
+                <br />
                 <div class="form-group">
                     
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                        <a asp-page="./Register" style="color:azure" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                     </p>
                     
                 </div>
